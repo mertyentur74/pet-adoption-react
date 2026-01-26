@@ -4,12 +4,10 @@ import "./App.css";
 
 function App() {
   const [pets, setPets] = useState([]);
-  const [newPet, setNewPet] = useState({ name: "", type: "", age: "" });
+  const [newPet, setNewPet] = useState({ name: "", type: "", age: "", image: "" });
 
-  // ✅ Render backend URL
   const API_URL = "https://pet-adoption-backend-6ntk.onrender.com/api/pets";
 
-  // Pets verilerini çek
   const fetchPets = async () => {
     try {
       const res = await axios.get(API_URL);
@@ -19,19 +17,17 @@ function App() {
     }
   };
 
-  // Yeni pet ekle
   const addPet = async (e) => {
     e.preventDefault();
     try {
       const res = await axios.post(API_URL, newPet);
       setPets([...pets, res.data]);
-      setNewPet({ name: "", type: "", age: "" });
+      setNewPet({ name: "", type: "", age: "", image: "" });
     } catch (err) {
       console.error("Error adding pet:", err);
     }
   };
 
-  // Pet sil
   const deletePet = async (id) => {
     try {
       await axios.delete(`${API_URL}/${id}`);
@@ -41,7 +37,6 @@ function App() {
     }
   };
 
-  // Adopted durumunu güncelle
   const updatePet = async (id, updatedFields) => {
     try {
       const res = await axios.put(`${API_URL}/${id}`, updatedFields);
@@ -57,9 +52,11 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Pet Adoption</h1>
+      <header>
+        <h1>🐾 Pet Adoption Center</h1>
+      </header>
 
-      <form onSubmit={addPet}>
+      <form className="pet-form" onSubmit={addPet}>
         <input
           type="text"
           placeholder="Name"
@@ -81,24 +78,34 @@ function App() {
           onChange={(e) => setNewPet({ ...newPet, age: e.target.value })}
           required
         />
+        <input
+          type="text"
+          placeholder="Image URL"
+          value={newPet.image}
+          onChange={(e) => setNewPet({ ...newPet, image: e.target.value })}
+        />
         <button type="submit">Add Pet</button>
       </form>
 
-      <ul>
+      <div className="pet-list">
         {pets.map((pet) => (
-          <li key={pet._id}>
-            {pet.name} ({pet.type}, {pet.age} years)
-            <button onClick={() => deletePet(pet._id)}>Delete</button>
-            <button
-              onClick={() =>
-                updatePet(pet._id, { adopted: !pet.adopted })
-              }
-            >
-              {pet.adopted ? "Mark as Available" : "Mark as Adopted"}
-            </button>
-          </li>
+          <div key={pet._id} className="pet-card">
+            {pet.image && <img src={pet.image} alt={pet.name} />}
+            <h2>{pet.name}</h2>
+            <p>{pet.type}, {pet.age} years old</p>
+            <p>Status: {pet.adopted ? "Adopted 🏠" : "Available 🐶"}</p>
+            <div className="buttons">
+              <button
+                className="update-btn"
+                onClick={() => updatePet(pet._id, { adopted: !pet.adopted })}
+              >
+                {pet.adopted ? "Mark as Available" : "Mark as Adopted"}
+              </button>
+              <button className="delete-btn" onClick={() => deletePet(pet._id)}>Delete</button>
+            </div>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }

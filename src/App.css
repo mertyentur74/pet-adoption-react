@@ -1,38 +1,117 @@
-.App {
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  background: #f4f6f8;
+  color: #333;
+}
+
+header {
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  padding: 2rem 0;
+  background-color: #4CAF50;
   color: white;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-.App-link {
-  color: #61dafb;
+h1 {
+  margin: 0;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.pet-form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.pet-form input {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 150px;
+}
+
+.pet-form button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 0.7rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.pet-form button:hover {
+  background-color: #45a049;
+}
+
+.pet-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.pet-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  padding: 1rem;
+  width: 220px;
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.pet-card:hover {
+  transform: translateY(-5px);
+}
+
+.pet-card img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 0.5rem;
+}
+
+.pet-card h2 {
+  margin: 0.3rem 0;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 0.5rem;
+}
+
+.update-btn {
+  background-color: #2196F3;
+  color: white;
+  border: none;
+  padding: 0.3rem 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.update-btn:hover {
+  background-color: #0b7dda;
+}
+
+.delete-btn {
+  background-color: #f44336;
+  color: white;
+  border: none;
+  padding: 0.3rem 0.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background-color: #da190b;
 }
