@@ -6,20 +6,19 @@ function App() {
   const [pets, setPets] = useState([]);
   const [newPet, setNewPet] = useState({ name: "", type: "", age: "", image: "" });
 
-  // Backend API URL
   const API_URL = "https://pet-adoption-backend-6ntk.onrender.com/api/pets";
 
-  // Fetch pets from backend
+  // Fetch all pets
   const fetchPets = async () => {
     try {
       const response = await axios.get(API_URL);
       setPets(response.data);
     } catch (error) {
-      console.error("Failed to fetch pets:", error);
+      console.error("Failed to fetch pets:", error.response || error.message);
     }
   };
 
-  // Convert uploaded file to base64 string
+  // Handle file input and convert to base64
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -31,36 +30,40 @@ function App() {
     }
   };
 
-  // Add new pet
+  // Add a new pet
   const addPet = async (event) => {
     event.preventDefault();
     try {
+      if (!newPet.image) {
+        alert("Please upload an image for the pet!");
+        return;
+      }
       const response = await axios.post(API_URL, newPet);
       setPets([...pets, response.data]);
       setNewPet({ name: "", type: "", age: "", image: "" });
-      document.getElementById("imageInput").value = ""; // Reset file input
+      document.getElementById("imageInput").value = "";
     } catch (error) {
-      console.error("Failed to add pet:", error);
+      console.error("Failed to add pet:", error.response || error.message);
     }
   };
 
-  // Delete pet
+  // Delete a pet
   const deletePet = async (id) => {
     try {
       await axios.delete(`${API_URL}/${id}`);
       setPets(pets.filter((pet) => pet._id !== id));
     } catch (error) {
-      console.error("Failed to delete pet:", error);
+      console.error("Failed to delete pet:", error.response || error.message);
     }
   };
 
-  // Update pet (adoption status)
+  // Toggle adoption status
   const updatePet = async (id, updatedFields) => {
     try {
       const response = await axios.put(`${API_URL}/${id}`, updatedFields);
       setPets(pets.map((pet) => (pet._id === id ? response.data : pet)));
     } catch (error) {
-      console.error("Failed to update pet:", error);
+      console.error("Failed to update pet:", error.response || error.message);
     }
   };
 

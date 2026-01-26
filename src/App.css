@@ -47,7 +47,7 @@ h1 {
 }
 
 .pet-form button:hover {
-  background-color: #064001; /* darker shade on hover */
+  background-color: #064001; /* darker shade */
 }
 
 .pet-list {
@@ -104,7 +104,7 @@ h1 {
 }
 
 .delete-btn {
-  background-color: #8B0000; /* deep red for delete */
+  background-color: #8B0000; /* deep red */
   color: white;
   border: none;
   padding: 0.3rem 0.5rem;
