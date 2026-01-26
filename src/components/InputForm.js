@@ -8,14 +8,12 @@ function InputForm({ addPet }) {
   const [description, setDescription] = useState("");
   const [image, setImage] = useState(null);
 
-  // Convert file to base64
+  // Convert image to Base64
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setImage(reader.result); // Base64 string
-      };
+      reader.onloadend = () => setImage(reader.result);
       reader.readAsDataURL(file);
     }
   };
@@ -39,14 +37,29 @@ function InputForm({ addPet }) {
   return (
     <form
       onSubmit={handleSubmit}
-      style={{ marginBottom: "20px", display: "flex", flexDirection: "column", gap: "10px" }}
+      style={{
+        marginBottom: "20px",
+        display: "flex",
+        flexDirection: "column",
+        gap: "10px",
+      }}
     >
       <input type="text" placeholder="Pet Name" value={name} onChange={(e) => setName(e.target.value)} required />
       <input type="text" placeholder="Pet Type" value={type} onChange={(e) => setType(e.target.value)} required />
       <input type="number" placeholder="Age" value={age} onChange={(e) => setAge(e.target.value)} required />
       <input type="text" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
       <input type="file" onChange={handleImageChange} />
-      <button type="submit" style={{ padding: "10px", fontSize: "16px", cursor: "pointer", backgroundColor: "#4CAF50", color: "white", border: "none" }}>
+      <button
+        type="submit"
+        style={{
+          padding: "10px",
+          fontSize: "16px",
+          cursor: "pointer",
+          backgroundColor: "#4CAF50",
+          color: "white",
+          border: "none",
+        }}
+      >
         Add Pet
       </button>
     </form>
