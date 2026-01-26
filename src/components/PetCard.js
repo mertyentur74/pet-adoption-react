@@ -1,39 +1,35 @@
-import React from 'react';
+import React from "react";
 
-function PetCard({ pet, index, removePet }) {
+function PetCard({ pet, deletePet }) {
   return (
-    <div style={{
-      border: '1px solid #ddd',
-      borderRadius: '6px',
-      padding: '15px',
-      marginBottom: '15px',
-      backgroundColor: 'white',
-      boxShadow: '0 2px 5px rgba(0,0,0,0.1)',
-      position: 'relative'
-    }}>
+    <div
+      style={{
+        border: "1px solid #ccc",
+        padding: "10px",
+        marginBottom: "10px",
+        position: "relative",
+      }}
+    >
+      <h3>{pet.name}</h3>
+      <p>Type: {pet.type}</p>
+      <p>Age: {pet.age}</p>
+      <p>{pet.description}</p>
+      {pet.image && <img src={pet.image} alt={pet.name} style={{ width: "150px", height: "auto" }} />}
       <button
-        onClick={() => removePet(index)}
+        onClick={() => deletePet(pet._id)}
         style={{
-          position: 'absolute',
-          top: '10px',
-          right: '10px',
-          background: 'red',
-          color: 'white',
-          border: 'none',
-          borderRadius: '50%',
-          width: '25px',
-          height: '25px',
-          cursor: 'pointer'
+          position: "absolute",
+          top: "5px",
+          right: "5px",
+          cursor: "pointer",
+          backgroundColor: "red",
+          color: "white",
+          border: "none",
+          padding: "5px 8px",
         }}
       >
         X
       </button>
-
-      <h3 style={{ marginTop: 0 }}>{pet.name}</h3>
-      <p><strong>Type:</strong> {pet.type}</p>
-      <p><strong>Age:</strong> {pet.age}</p>
-      <p>{pet.description}</p>
-      {pet.photo && <img src={pet.photo} alt={pet.name} style={{ width: '150px', marginTop: '10px' }} />}
     </div>
   );
 }

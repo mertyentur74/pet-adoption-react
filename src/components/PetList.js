@@ -1,19 +1,16 @@
-import React from 'react';
-import PetCard from './PetCard';
+import React from "react";
+import PetCard from "./PetCard";
 
-function PetList({ pets, removePet }) {
+function PetList({ pets, deletePet }) {
   return (
     <div>
       {pets.length === 0 ? (
         <p>No pets available. Add some!</p>
       ) : (
-        pets.map((pet, index) => (
-          <PetCard key={index} pet={pet} index={index} removePet={removePet} />
-        ))
+        pets.map((pet) => <PetCard key={pet._id} pet={pet} deletePet={deletePet} />)
       )}
     </div>
   );
 }
 
 export default PetList;
-
