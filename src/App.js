@@ -6,43 +6,61 @@ function App() {
   const [pets, setPets] = useState([]);
   const [newPet, setNewPet] = useState({ name: "", type: "", age: "", image: "" });
 
+  // Backend API URL
   const API_URL = "https://pet-adoption-backend-6ntk.onrender.com/api/pets";
 
+  // Fetch pets from backend
   const fetchPets = async () => {
     try {
-      const res = await axios.get(API_URL);
-      setPets(res.data);
-    } catch (err) {
-      console.error("Error fetching pets:", err);
+      const response = await axios.get(API_URL);
+      setPets(response.data);
+    } catch (error) {
+      console.error("Failed to fetch pets:", error);
     }
   };
 
-  const addPet = async (e) => {
-    e.preventDefault();
+  // Convert uploaded file to base64 string
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setNewPet({ ...newPet, image: reader.result });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // Add new pet
+  const addPet = async (event) => {
+    event.preventDefault();
     try {
-      const res = await axios.post(API_URL, newPet);
-      setPets([...pets, res.data]);
+      const response = await axios.post(API_URL, newPet);
+      setPets([...pets, response.data]);
       setNewPet({ name: "", type: "", age: "", image: "" });
-    } catch (err) {
-      console.error("Error adding pet:", err);
+      document.getElementById("imageInput").value = ""; // Reset file input
+    } catch (error) {
+      console.error("Failed to add pet:", error);
     }
   };
 
+  // Delete pet
   const deletePet = async (id) => {
     try {
       await axios.delete(`${API_URL}/${id}`);
       setPets(pets.filter((pet) => pet._id !== id));
-    } catch (err) {
-      console.error("Error deleting pet:", err);
+    } catch (error) {
+      console.error("Failed to delete pet:", error);
     }
   };
 
+  // Update pet (adoption status)
   const updatePet = async (id, updatedFields) => {
     try {
-      const res = await axios.put(`${API_URL}/${id}`, updatedFields);
-      setPets(pets.map((pet) => (pet._id === id ? res.data : pet)));
-    } catch (err) {
-      console.error("Error updating pet:", err);
+      const response = await axios.put(`${API_URL}/${id}`, updatedFields);
+      setPets(pets.map((pet) => (pet._id === id ? response.data : pet)));
+    } catch (error) {
+      console.error("Failed to update pet:", error);
     }
   };
 
@@ -79,10 +97,10 @@ function App() {
           required
         />
         <input
-          type="text"
-          placeholder="Image URL"
-          value={newPet.image}
-          onChange={(e) => setNewPet({ ...newPet, image: e.target.value })}
+          type="file"
+          id="imageInput"
+          accept="image/*"
+          onChange={handleFileChange}
         />
         <button type="submit">Add Pet</button>
       </form>
