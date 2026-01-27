@@ -1,0 +1,61 @@
+.pet-list-page {
+  padding: 40px 0;
+}
+
+.pet-list-page h1 {
+  text-align: center;
+  margin-bottom: 40px;
+  font-size: 36px;
+  color: #333;
+}
+
+.filters {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 15px;
+  margin-bottom: 40px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.search-input {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.filters select {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+.pets-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.no-pets {
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.no-pets h2 {
+  color: #666;
+  margin-bottom: 10px;
+}
+
+@media (max-width: 768px) {
+  .filters {
+    grid-template-columns: 1fr;
+  }
+  
+  .pets-grid {
+    grid-template-columns: 1fr;
+  }
+}
