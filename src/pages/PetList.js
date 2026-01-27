@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import api from '../utils/api';
 import PetCard from '../components/PetCard';
 import './PetList.css';
@@ -13,24 +13,24 @@ const PetList = () => {
     search: ''
   });
 
-  useEffect(() => {
-    const fetchPets = async () => {
-      try {
-        setLoading(true);
-        const queryParams = new URLSearchParams(
-          Object.entries(filters).filter(([_, value]) => value)
-        ).toString();
-        const response = await api.get(`/pets?${queryParams}`);
-        setPets(response.data.data);
-      } catch (error) {
-        console.error('Error fetching pets:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    
-    fetchPets();
+  const fetchPets = useCallback(async () => {
+    try {
+      setLoading(true);
+      const queryParams = new URLSearchParams(
+        Object.entries(filters).filter(([, value]) => value)
+      ).toString();
+      const response = await api.get(`/pets?${queryParams}`);
+      setPets(response.data.data);
+    } catch (error) {
+      console.error('Error fetching pets:', error);
+    } finally {
+      setLoading(false);
+    }
   }, [filters]);
+
+  useEffect(() => {
+    fetchPets();
+  }, [fetchPets]);
 
   const handleFilterChange = (e) => {
     setFilters({

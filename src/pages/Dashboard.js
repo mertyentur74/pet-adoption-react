@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../context/AuthContext';
 import api from '../utils/api';
 import './Dashboard.css';
@@ -9,11 +9,7 @@ const Dashboard = () => {
   const [savedPets, setSavedPets] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     try {
       const [appsRes, savedRes] = await Promise.all([
         api.get('/applications'),
@@ -26,7 +22,11 @@ const Dashboard = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   if (loading) {
     return <div className="loading"><div className="spinner"></div></div>;

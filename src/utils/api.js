@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-// Create axios instance with default config
 const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL || 'http://localhost:5000/api',
   headers: {
@@ -8,7 +7,7 @@ const api = axios.create({
   },
 });
 
-// Add token to requests if available
+// Request interceptor - add token to requests
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
@@ -22,12 +21,11 @@ api.interceptors.request.use(
   }
 );
 
-// Handle responses and errors
+// Response interceptor - handle 401 errors
 api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Clear invalid token
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       window.location.href = '/login';

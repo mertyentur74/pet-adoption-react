@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../utils/api';
@@ -38,18 +38,18 @@ const AdoptionForm = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    const fetchPet = async () => {
-      try {
-        const response = await api.get(`/pets/${id}`);
-        setPet(response.data.data);
-      } catch (error) {
-        console.error('Error:', error);
-      }
-    };
-    
-    fetchPet();
+  const fetchPet = useCallback(async () => {
+    try {
+      const response = await api.get(`/pets/${id}`);
+      setPet(response.data.data);
+    } catch (error) {
+      console.error('Error:', error);
+    }
   }, [id]);
+
+  useEffect(() => {
+    fetchPet();
+  }, [fetchPet]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;

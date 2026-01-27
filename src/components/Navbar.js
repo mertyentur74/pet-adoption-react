@@ -6,65 +6,59 @@ import './Navbar.css';
 const Navbar = () => {
   const { user, logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleLogout = () => {
     logout();
     navigate('/');
-    setIsMenuOpen(false);
+    setMobileMenuOpen(false);
   };
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
   };
 
-  const closeMenu = () => {
-    setIsMenuOpen(false);
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
   };
 
   return (
     <nav className="navbar">
-      <div className="container navbar-content">
-        <Link to="/" className="navbar-brand" onClick={closeMenu}>
-          🐾 Pet Adoption
-        </Link>
-
-        <button className="navbar-toggle" onClick={toggleMenu}>
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
-
-        <div className={`navbar-menu ${isMenuOpen ? 'active' : ''}`}>
-          <Link to="/" className="navbar-link" onClick={closeMenu}>
-            Home
-          </Link>
-          <Link to="/pets" className="navbar-link" onClick={closeMenu}>
-            Find Pets
+      <div className="container">
+        <div className="nav-content">
+          <Link to="/" className="logo" onClick={closeMobileMenu}>
+            🐾 PetAdopt
           </Link>
 
-          {isAuthenticated ? (
-            <>
-              <Link to="/dashboard" className="navbar-link" onClick={closeMenu}>
-                Dashboard
-              </Link>
-              <div className="navbar-user">
-                <span className="navbar-username">👤 {user?.name}</span>
-                <button onClick={handleLogout} className="btn btn-outline btn-sm">
+          <button 
+            className="mobile-menu-toggle"
+            onClick={toggleMobileMenu}
+            aria-label="Toggle menu"
+          >
+            {mobileMenuOpen ? '✕' : '☰'}
+          </button>
+
+          <div className={`nav-links ${mobileMenuOpen ? 'active' : ''}`}>
+            <Link to="/" onClick={closeMobileMenu}>Home</Link>
+            <Link to="/pets" onClick={closeMobileMenu}>Find Pets</Link>
+            
+            {isAuthenticated ? (
+              <>
+                <Link to="/dashboard" onClick={closeMobileMenu}>Dashboard</Link>
+                <span className="user-name">Hi, {user?.name}</span>
+                <button onClick={handleLogout} className="btn btn-secondary">
                   Logout
                 </button>
-              </div>
-            </>
-          ) : (
-            <>
-              <Link to="/login" className="navbar-link" onClick={closeMenu}>
-                Login
-              </Link>
-              <Link to="/register" onClick={closeMenu}>
-                <button className="btn btn-primary btn-sm">Sign Up</button>
-              </Link>
-            </>
-          )}
+              </>
+            ) : (
+              <>
+                <Link to="/login" onClick={closeMobileMenu}>Login</Link>
+                <Link to="/register" onClick={closeMobileMenu}>
+                  <button className="btn btn-primary">Sign Up</button>
+                </Link>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </nav>

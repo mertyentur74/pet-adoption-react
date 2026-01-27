@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import api from '../utils/api';
@@ -11,20 +11,20 @@ const PetDetail = () => {
   const [pet, setPet] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    const fetchPet = async () => {
-      try {
-        const response = await api.get(`/pets/${id}`);
-        setPet(response.data.data);
-      } catch (error) {
-        console.error('Error fetching pet:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-    
-    fetchPet();
+  const fetchPet = useCallback(async () => {
+    try {
+      const response = await api.get(`/pets/${id}`);
+      setPet(response.data.data);
+    } catch (error) {
+      console.error('Error fetching pet:', error);
+    } finally {
+      setLoading(false);
+    }
   }, [id]);
+
+  useEffect(() => {
+    fetchPet();
+  }, [fetchPet]);
 
   const handleAdopt = () => {
     if (!isAuthenticated) {
