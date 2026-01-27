@@ -1,97 +1,26 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
-
-body {
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
-  background: #f4f6f8;
-  color: #333;
-}
-
-header {
-  text-align: center;
-  padding: 2rem 0;
-  background-color: #0B3D02; /* British Racing Green */
-  color: white;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  border-radius: 8px 8px 0 0;
-}
-
-h1 { margin: 0; }
-
-.pet-form {
+.App {
+  min-height: 100vh;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
-  padding: 2rem;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-  margin: 20px auto;
-  max-width: 600px;
+  flex-direction: column;
 }
 
-.input {
-  padding: 0.6rem;
-  font-size: 1rem;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  width: 150px;
+.main-content {
+  flex: 1;
+  padding-top: 80px;
+  min-height: calc(100vh - 200px);
 }
 
-.add-btn {
-  background-color: #0B3D02;
-  color: white;
-  border: none;
-  padding: 0.7rem 1.5rem;
-  font-size: 1rem;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.3s;
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.add-btn:hover { background-color: #064001; }
-
-.pet-list {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
-  padding: 2rem;
+.fade-in {
+  animation: fadeIn 0.5s ease-in;
 }
-
-.pet-card {
-  background: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-  padding: 1rem;
-  width: 220px;
-  text-align: center;
-  position: relative;
-  transition: transform 0.2s;
-}
-
-.pet-card:hover { transform: translateY(-5px); }
-
-.pet-card img {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 0.5rem;
-}
-
-.delete-btn {
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  cursor: pointer;
-  background-color: red;
-  color: white;
-  border: none;
-  padding: 5px 8px;
-  border-radius: 8px;
-  transition: 0.2s;
-}
-
-.delete-btn:hover { background-color: #8B0000; }

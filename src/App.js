@@ -1,31 +1,47 @@
-import { useState, useEffect } from "react";
-import InputForm from "./components/InputForm";
-import PetList from "./components/PetList";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import './App.css';
 
-const API_URL = "https://pet-adoption-backend-6ntk.onrender.com";
+// Components
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 
-export default function App() {
-  const [pets, setPets] = useState([]);
+// Pages
+import Home from './pages/Home';
+import PetList from './pages/PetList';
+import PetDetail from './pages/PetDetail';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Dashboard from './pages/Dashboard';
+import AdoptionForm from './pages/AdoptionForm';
+import NotFound from './pages/NotFound';
 
-  useEffect(() => { fetchPets(); }, []);
+// Context
+import { AuthProvider } from './context/AuthContext';
 
-  const fetchPets = async () => {
-    const res = await fetch(`${API_URL}/pets`);
-    const data = await res.json();
-    setPets(data);
-  };
-
-  const addPet = (newPet) => setPets([...pets, newPet]);
-  const deletePet = async (id) => {
-    await fetch(`${API_URL}/pets/${id}`, { method: "DELETE" });
-    setPets(pets.filter((p) => p._id !== id));
-  };
-
+function App() {
   return (
-    <div style={{ padding: 30, fontFamily: "Poppins, sans-serif", background: "#0b3d2e", minHeight: "100vh", color: "white" }}>
-      <h1 style={{ textAlign: "center" }}>Pet Adoption</h1>
-      <InputForm addPet={addPet} />
-      <PetList pets={pets} deletePet={deletePet} />
-    </div>
+    <AuthProvider>
+      <Router>
+        <div className="App">
+          <Navbar />
+          <main className="main-content">
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/pets" element={<PetList />} />
+              <Route path="/pets/:id" element={<PetDetail />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/adopt/:id" element={<AdoptionForm />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </main>
+          <Footer />
+        </div>
+      </Router>
+    </AuthProvider>
   );
 }
+
+export default App;
