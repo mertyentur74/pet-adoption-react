@@ -3,7 +3,7 @@ import PetCard from "./PetCard";
 
 function PetList({ pets, deletePet }) {
   return (
-    <div>
+    <div className="pet-list">
       {pets.length === 0 ? (
         <p>No pets available. Add some!</p>
       ) : (

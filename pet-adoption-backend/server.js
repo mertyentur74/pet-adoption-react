@@ -1,66 +1,59 @@
-import express from "express";
-import mongoose from "mongoose";
-import cors from "cors";
-import dotenv from "dotenv";
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+require("dotenv").config();
 
-dotenv.config();
+const Pet = require("./models/Pet");
+
 const app = express();
 
-// Allow large JSON payloads (for big images)
-app.use(express.json({ limit: "10mb" }));
 app.use(cors());
+app.use(express.json({ limit: "10mb" }));
 
-// Connect to MongoDB Atlas
-mongoose.connect(process.env.MONGO_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-  .then(() => console.log("MongoDB connected"))
-  .catch(err => console.log(err));
-
-// Pet model
-import Pet from "./models/Pet.js";
+// Test route
+app.get("/", (req, res) => {
+  res.send("Pet Adoption API is running");
+});
 
 // GET all pets
-app.get("/api/pets", async (req, res) => {
+app.get("/pets", async (req, res) => {
   try {
     const pets = await Pet.find();
     res.json(pets);
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: "Failed to fetch pets" });
   }
 });
 
 // POST new pet
-app.post("/api/pets", async (req, res) => {
+app.post("/pets", async (req, res) => {
   try {
     const pet = new Pet(req.body);
-    const savedPet = await pet.save();
-    res.json(savedPet);
+    await pet.save();
+    res.status(201).json(pet);
   } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-});
-
-// PUT update pet
-app.put("/api/pets/:id", async (req, res) => {
-  try {
-    const updatedPet = await Pet.findByIdAndUpdate(req.params.id, req.body, { new: true });
-    res.json(updatedPet);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(400).json({ error: "Failed to add pet" });
   }
 });
 
 // DELETE pet
-app.delete("/api/pets/:id", async (req, res) => {
+app.delete("/pets/:id", async (req, res) => {
   try {
-    await Pet.findByIdAndDelete(req.params.id);
+    const deleted = await Pet.findByIdAndDelete(req.params.id);
+    if (!deleted) return res.status(404).json({ error: "Pet not found" });
     res.json({ message: "Pet deleted" });
   } catch (err) {
-    res.status(500).json({ error: err.message });
+    res.status(500).json({ error: "Failed to delete pet" });
   }
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+// Connect to MongoDB
+mongoose
+  .connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log("MongoDB connected");
+    app.listen(process.env.PORT || 5000, () =>
+      console.log(`Server running on port ${process.env.PORT || 5000}`)
+    );
+  })
+  .catch((err) => console.error(err));
