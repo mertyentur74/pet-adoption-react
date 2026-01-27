@@ -26,7 +26,8 @@ app.get("/pets", async (req, res) => {
 app.post("/pets", async (req, res) => {
   try {
     const { name, type, age, description, image } = req.body;
-    if (!name || !type || !age) return res.status(400).json({ error: "Name, type, and age are required" });
+    if (!name || !type || !age)
+      return res.status(400).json({ error: "Name, type, and age are required" });
 
     const pet = new Pet({ name, type, age, description, image });
     await pet.save();
@@ -53,6 +54,8 @@ mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
     console.log("MongoDB connected");
-    app.listen(process.env.PORT || 5000, () => console.log(`Server running on port ${process.env.PORT || 5000}`));
+    app.listen(process.env.PORT || 5000, () =>
+      console.log(`Server running on port ${process.env.PORT || 5000}`)
+    );
   })
   .catch((err) => console.error(err));

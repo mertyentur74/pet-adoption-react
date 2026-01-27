@@ -3,14 +3,16 @@ import PetCard from "./PetCard";
 
 function PetList({ pets, deletePet }) {
   return (
-    <div className="pet-list">
-      {pets.length === 0 ? (
-        <p>No pets available. Add some!</p>
-      ) : (
-        pets.map((pet) => <PetCard key={pet._id} pet={pet} deletePet={deletePet} />)
-      )}
+    <div style={styles.list}>
+      {pets.length === 0 ? <p>No pets available.</p> :
+        pets.map((p) => <PetCard key={p._id} pet={p} deletePet={deletePet} />)
+      }
     </div>
   );
 }
+
+const styles = {
+  list: { display: "flex", flexWrap: "wrap", gap: 20, justifyContent: "center", padding: 20 }
+};
 
 export default PetList;
