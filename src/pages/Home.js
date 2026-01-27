@@ -8,81 +8,79 @@ const Home = () => {
       {/* Hero Section */}
       <section className="hero">
         <div className="hero-content">
-          <h1 className="hero-title">Find Your Perfect Companion</h1>
-          <p className="hero-subtitle">
-            Thousands of pets are waiting for a loving home. Start your adoption journey today!
-          </p>
+          <h1>Find Your Perfect Companion</h1>
+          <p>Thousands of pets are waiting for their forever home. Start your adoption journey today!</p>
           <div className="hero-buttons">
             <Link to="/pets">
               <button className="btn btn-primary btn-large">Browse Pets</button>
             </Link>
-            <Link to="/register">
-              <button className="btn btn-outline btn-large">Get Started</button>
+            <Link to="/add-pet">
+              <button className="btn btn-outline btn-large">Add Pet</button>
             </Link>
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="features">
+      {/* How It Works Section */}
+      <section className="how-it-works">
         <div className="container">
-          <h2 className="section-title">Why Adopt?</h2>
-          <div className="features-grid">
-            <div className="feature-card">
-              <div className="feature-icon">❤️</div>
-              <h3>Save a Life</h3>
-              <p>Give a homeless pet a second chance at happiness</p>
+          <h2>How It Works</h2>
+          <div className="steps">
+            <div className="step">
+              <div className="step-icon">🔍</div>
+              <h3>Search</h3>
+              <p>Browse through our database of adorable pets looking for homes</p>
             </div>
-            <div className="feature-card">
-              <div className="feature-icon">🏠</div>
-              <h3>Find Your Match</h3>
-              <p>Search by breed, age, size, and personality</p>
+            <div className="step">
+              <div className="step-icon">❤️</div>
+              <h3>Connect</h3>
+              <p>Find your perfect match and submit an adoption application</p>
             </div>
-            <div className="feature-card">
-              <div className="feature-icon">✅</div>
-              <h3>Simple Process</h3>
-              <p>Easy application and approval process</p>
-            </div>
-            <div className="feature-card">
-              <div className="feature-icon">🤝</div>
-              <h3>Ongoing Support</h3>
-              <p>Get help and resources after adoption</p>
+            <div className="step">
+              <div className="step-icon">🏡</div>
+              <h3>Adopt</h3>
+              <p>Welcome your new family member into your loving home</p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Statistics Section */}
-      <section className="stats">
+      {/* Featured Pets Section */}
+      <section className="featured-pets">
         <div className="container">
-          <div className="stats-grid">
-            <div className="stat-card">
-              <div className="stat-number">1000+</div>
-              <div className="stat-label">Pets Available</div>
+          <h2>Why Choose Pet Adoption?</h2>
+          <div className="features">
+            <div className="feature">
+              <div className="feature-icon">🐾</div>
+              <h3>Save a Life</h3>
+              <p>Give a rescued pet a second chance at happiness</p>
             </div>
-            <div className="stat-card">
-              <div className="stat-number">5000+</div>
-              <div className="stat-label">Happy Adoptions</div>
+            <div className="feature">
+              <div className="feature-icon">💰</div>
+              <h3>Cost-Effective</h3>
+              <p>Adoption fees are much lower than buying from breeders</p>
             </div>
-            <div className="stat-card">
-              <div className="stat-number">200+</div>
-              <div className="stat-label">Partner Shelters</div>
+            <div className="feature">
+              <div className="feature-icon">🏥</div>
+              <h3>Health Checked</h3>
+              <p>All pets are vaccinated and health-screened before adoption</p>
             </div>
-            <div className="stat-card">
-              <div className="stat-number">24/7</div>
-              <div className="stat-label">Support Available</div>
+            <div className="feature">
+              <div className="feature-icon">🤝</div>
+              <h3>Support Network</h3>
+              <p>Get ongoing support from our community of pet lovers</p>
             </div>
           </div>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section className="cta">
+      <section className="cta-section">
         <div className="container">
-          <h2>Ready to Make a Difference?</h2>
-          <p>Start your adoption journey today and give a pet the loving home they deserve.</p>
+          <h2>Ready to Find Your New Best Friend?</h2>
+          <p>Start your adoption journey today and make a difference in a pet's life</p>
           <Link to="/pets">
-            <button className="btn btn-primary btn-large">Find Your Pet</button>
+            <button className="btn btn-primary btn-large">Start Browsing</button>
           </Link>
         </div>
       </section>

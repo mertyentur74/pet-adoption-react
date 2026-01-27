@@ -14,6 +14,8 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import AdoptionForm from './pages/AdoptionForm';
+import AddPet from './pages/AddPet';
+import About from './pages/About';
 import NotFound from './pages/NotFound';
 
 // Context
@@ -34,6 +36,8 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/adopt/:id" element={<AdoptionForm />} />
+              <Route path="/add-pet" element={<AddPet />} />
+              <Route path="/about" element={<About />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>

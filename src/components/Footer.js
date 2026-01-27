@@ -8,57 +8,28 @@ const Footer = () => {
       <div className="container">
         <div className="footer-content">
           <div className="footer-section">
-            <h4>🐾 PetAdopt</h4>
-            <p>Find your perfect companion today!</p>
+            <img src="/logo.jpg" alt="Pet Adopt" className="footer-logo" />
+            <p className="footer-tagline">FIND YOUR LIFELONG ACCOMPANY TODAY</p>
           </div>
 
           <div className="footer-section">
             <h4>Quick Links</h4>
             <Link to="/pets">Browse Pets</Link>
+            <Link to="/add-pet">Add Pet</Link>
             <Link to="/register">Register</Link>
             <Link to="/login">Login</Link>
           </div>
 
           <div className="footer-section">
             <h4>About</h4>
+            <Link to="/about">Who We Are</Link>
             <Link to="/">How it Works</Link>
             <Link to="/">Adoption Process</Link>
-            <Link to="/">Contact Us</Link>
-          </div>
-
-          <div className="footer-section">
-            <h4>Connect</h4>
-            <div className="social-links">
-              <a 
-                href="https://facebook.com" 
-                aria-label="Facebook"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                📘
-              </a>
-              <a 
-                href="https://twitter.com" 
-                aria-label="Twitter"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                🐦
-              </a>
-              <a 
-                href="https://instagram.com" 
-                aria-label="Instagram"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                📷
-              </a>
-            </div>
           </div>
         </div>
 
         <div className="footer-bottom">
-          <p>&copy; 2024 PetAdopt. All rights reserved.</p>
+          <p>&copy; 2026 PetAdopt. All rights reserved.</p>
         </div>
       </div>
     </footer>
