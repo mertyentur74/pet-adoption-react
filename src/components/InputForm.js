@@ -3,7 +3,7 @@ import axios from "axios";
 
 const API_URL = "https://pet-adoption-backend-6ntk.onrender.com";
 
-function InputForm({ addPet }) {
+export default function InputForm({ addPet }) {
   const [name, setName] = useState("");
   const [type, setType] = useState("");
   const [age, setAge] = useState("");
@@ -23,49 +23,29 @@ function InputForm({ addPet }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
-
     if (!name || !type || !age) {
       setError("Name, type, and age are required!");
       return;
     }
 
-    const newPet = { name, type, age, description, image };
     try {
-      const res = await axios.post(`${API_URL}/pets`, newPet);
+      const res = await axios.post(`${API_URL}/pets`, { name, type, age, description, image });
       addPet(res.data);
       setName(""); setType(""); setAge(""); setDescription(""); setImage(null);
-    } catch (err) {
-      console.error(err);
+    } catch {
       setError("Error adding pet!");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} style={styles.form}>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <input id="pet-name" name="name" className="input" placeholder="Pet Name" value={name} onChange={(e) => setName(e.target.value)} />
-      <input id="pet-type" name="type" className="input" placeholder="Pet Type" value={type} onChange={(e) => setType(e.target.value)} />
-      <input id="pet-age" name="age" type="number" className="input" placeholder="Age" value={age} onChange={(e) => setAge(e.target.value)} />
-      <input id="pet-description" name="description" className="input" placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} />
+    <form onSubmit={handleSubmit} style={{ display:"flex", flexDirection:"column", gap:10, maxWidth:400, margin:"20px auto", padding:20, background:"#fff", borderRadius:8 }}>
+      {error && <p style={{color:"red"}}>{error}</p>}
+      <input id="name" name="name" placeholder="Pet Name" value={name} onChange={(e)=>setName(e.target.value)} />
+      <input id="type" name="type" placeholder="Pet Type" value={type} onChange={(e)=>setType(e.target.value)} />
+      <input id="age" name="age" type="number" placeholder="Age" value={age} onChange={(e)=>setAge(e.target.value)} />
+      <input id="description" name="description" placeholder="Description" value={description} onChange={(e)=>setDescription(e.target.value)} />
       <input type="file" onChange={handleImageChange} />
-      <button className="add-btn" type="submit">Add Pet</button>
+      <button style={{ background:"#0B3D02", color:"#fff", borderRadius:8, padding:"0.7rem 1.5rem", border:"none", cursor:"pointer"}}>Add Pet</button>
     </form>
   );
 }
-
-const styles = {
-  form: {
-    display: "flex",
-    flexDirection: "column",
-    gap: 10,
-    margin: "20px auto",
-    maxWidth: 400,
-    background: "#ffffff",
-    color: "#000",
-    padding: 20,
-    borderRadius: 8,
-    boxShadow: "0 6px 12px rgba(0,0,0,0.15)",
-  },
-};
-
-export default InputForm;

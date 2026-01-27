@@ -5,7 +5,7 @@ const PetSchema = new mongoose.Schema({
   type: { type: String, required: true },
   age: { type: Number, required: true },
   description: { type: String },
-  image: { type: String } // base64 image
+  image: { type: String },
 });
 
 module.exports = mongoose.model("Pet", PetSchema);
