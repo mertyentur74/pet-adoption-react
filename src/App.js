@@ -1,101 +1,118 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { useEffect, useState } from "react";
 import "./App.css";
+
+const API_URL = "https://pet-adoption-backend-6ntk.onrender.com";
 
 function App() {
   const [pets, setPets] = useState([]);
-  const [newPet, setNewPet] = useState({
-    name: "",
-    type: "",
-    age: "",
-    image: ""
-  });
+  const [name, setName] = useState("");
+  const [type, setType] = useState("");
+  const [age, setAge] = useState("");
+  const [image, setImage] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const API_URL = "https://pet-adoption-backend-6ntk.onrender.com/api/pets";
-
+  // Fetch pets on load
   useEffect(() => {
-    fetchPets();
+    fetch(`${API_URL}/pets`)
+      .then((res) => res.json())
+      .then((data) => setPets(data))
+      .catch((err) => console.error(err));
   }, []);
 
-  const fetchPets = async () => {
-    const res = await axios.get(API_URL);
-    setPets(res.data);
-  };
+  // Handle form submit
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-
-    const reader = new FileReader();
-    reader.onload = () => {
-      setNewPet(prev => ({ ...prev, image: reader.result }));
-    };
-    reader.readAsDataURL(file);
-  };
-
-  const addPet = async () => {
-    console.log("ADD BUTTON CLICKED");
-    console.log("Sending pet:", newPet);
-
-    if (!newPet.name || !newPet.type || !newPet.age || !newPet.image) {
-      alert("All fields including image are required.");
+    if (!name || !type || !age || !image) {
+      alert("Please fill in all fields");
       return;
     }
 
-    try {
-      const res = await axios.post(API_URL, newPet);
-      console.log("Pet saved:", res.data);
+    const formData = new FormData();
+    formData.append("name", name);
+    formData.append("type", type);
+    formData.append("age", age);
+    formData.append("image", image);
 
-      setPets([...pets, res.data]);
-      setNewPet({ name: "", type: "", age: "", image: "" });
+    try {
+      setLoading(true);
+
+      const response = await fetch(`${API_URL}/pets`, {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to add pet");
+      }
+
+      const newPet = await response.json();
+
+      // Update UI without refresh
+      setPets((prev) => [...prev, newPet]);
+
+      // Reset form
+      setName("");
+      setType("");
+      setAge("");
+      setImage(null);
       document.getElementById("imageInput").value = "";
-    } catch (err) {
-      console.error("Add pet failed:", err.response || err);
-      alert("Failed to add pet. Check console.");
+
+    } catch (error) {
+      console.error(error);
+      alert("Error adding pet");
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className="App">
-      <h1>Pet Adoption Center</h1>
+    <div className="app-container">
+      <h1 className="title">Pet Adoption</h1>
 
-      <div className="pet-form">
+      {/* Add Pet Form */}
+      <form className="pet-form" onSubmit={handleSubmit}>
         <input
-          placeholder="Name"
-          value={newPet.name}
-          onChange={e => setNewPet({ ...newPet, name: e.target.value })}
+          type="text"
+          placeholder="Pet name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
         />
 
         <input
-          placeholder="Type"
-          value={newPet.type}
-          onChange={e => setNewPet({ ...newPet, type: e.target.value })}
+          type="text"
+          placeholder="Pet type"
+          value={type}
+          onChange={(e) => setType(e.target.value)}
         />
 
         <input
           type="number"
           placeholder="Age"
-          value={newPet.age}
-          onChange={e => setNewPet({ ...newPet, age: e.target.value })}
+          value={age}
+          onChange={(e) => setAge(e.target.value)}
         />
 
         <input
-          type="file"
           id="imageInput"
+          type="file"
           accept="image/*"
-          onChange={handleFileChange}
+          onChange={(e) => setImage(e.target.files[0])}
         />
 
-        {/* 🔥 DIRECT CLICK — NO FORM */}
-        <button onClick={addPet}>Add Pet</button>
-      </div>
+        <button type="submit" disabled={loading}>
+          {loading ? "Adding..." : "Add Pet"}
+        </button>
+      </form>
 
-      <div className="pet-list">
-        {pets.map(pet => (
-          <div key={pet._id} className="pet-card">
-            <img src={pet.image} alt={pet.name} />
-            <h2>{pet.name}</h2>
-            <p>{pet.type} • {pet.age} years</p>
+      {/* Pet List */}
+      <div className="pet-grid">
+        {pets.map((pet) => (
+          <div className="pet-card" key={pet._id}>
+            <img src={pet.imageUrl} alt={pet.name} />
+            <h3>{pet.name}</h3>
+            <p>{pet.type}</p>
+            <p>{pet.age} years old</p>
           </div>
         ))}
       </div>
