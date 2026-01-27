@@ -9,7 +9,7 @@ const Footer = () => {
         <div className="footer-content">
           <div className="footer-section">
             <img src="/logo.jpg" alt="Pet Adopt" className="footer-logo" />
-            <p className="footer-tagline">FIND YOUR LIFELONG ACCOMPANY TODAY</p>
+            <p className="footer-tagline">Find Your Forever Companion Today!</p>
           </div>
 
           <div className="footer-section">
