@@ -8,7 +8,6 @@ const AddPet = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
-  const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState('');
   
   const [formData, setFormData] = useState({
@@ -40,7 +39,6 @@ const AddPet = () => {
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setImageFile(file);
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result);
@@ -95,7 +93,6 @@ const AddPet = () => {
         goodWithPets: false,
         contactPhone: ''
       });
-      setImageFile(null);
       setImagePreview('');
       
       // Redirect after 3 seconds
