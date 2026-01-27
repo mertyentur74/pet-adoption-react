@@ -8,7 +8,7 @@ import Footer from './components/Footer';
 
 // Pages
 import Home from './pages/Home';
-//import PetList from './pages/PetList';
+import PetList from './pages/PetList';
 import PetDetail from './pages/PetDetail';
 import Login from './pages/Login';
 import Register from './pages/Register';
