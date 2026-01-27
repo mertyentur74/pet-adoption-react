@@ -39,17 +39,17 @@ const AdoptionForm = () => {
   const [error, setError] = useState('');
 
   useEffect(() => {
+    const fetchPet = async () => {
+      try {
+        const response = await api.get(`/pets/${id}`);
+        setPet(response.data.data);
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    };
+    
     fetchPet();
   }, [id]);
-
-  const fetchPet = async () => {
-    try {
-      const response = await api.get(`/pets/${id}`);
-      setPet(response.data.data);
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;

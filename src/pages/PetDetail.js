@@ -6,25 +6,25 @@ import './PetDetail.css';
 
 const PetDetail = () => {
   const { id } = useParams();
-  const { user, isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
   const [pet, setPet] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const fetchPet = async () => {
+      try {
+        const response = await api.get(`/pets/${id}`);
+        setPet(response.data.data);
+      } catch (error) {
+        console.error('Error fetching pet:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    
     fetchPet();
   }, [id]);
-
-  const fetchPet = async () => {
-    try {
-      const response = await api.get(`/pets/${id}`);
-      setPet(response.data.data);
-    } catch (error) {
-      console.error('Error fetching pet:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleAdopt = () => {
     if (!isAuthenticated) {
