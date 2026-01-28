@@ -48,6 +48,7 @@ const Navbar = () => {
                 <Link to="/register" onClick={closeMobileMenu}>Sign Up</Link>
                 <Link to="/about" onClick={closeMobileMenu}>Who We Are</Link>
                 <Link to="/add-pet" onClick={closeMobileMenu}>Add Pet</Link>
+                <Link to="/health" onClick={closeMobileMenu}>Check Connection</Link>
               </div>
             )}
           </div>

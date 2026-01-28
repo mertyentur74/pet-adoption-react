@@ -43,3 +43,20 @@
 .auth-link a:hover {
   text-decoration: underline;
 }
+
+.auth-note {
+  margin-top: 20px;
+  padding: 15px;
+  background: #FAF9F6;
+  border-left: 4px solid #004225;
+  border-radius: 4px;
+}
+
+.auth-note small {
+  color: #666;
+  line-height: 1.5;
+}
+
+.auth-note strong {
+  color: #004225;
+}

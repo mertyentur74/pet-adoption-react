@@ -1,0 +1,113 @@
+.health-check-page {
+  padding: 40px 0;
+  min-height: calc(100vh - 200px);
+}
+
+.health-card {
+  background: white;
+  padding: 40px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.health-card h1 {
+  color: #004225;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.backend-url {
+  background: #FAF9F6;
+  padding: 15px;
+  border-radius: 5px;
+  margin-bottom: 30px;
+  font-family: monospace;
+  word-break: break-all;
+}
+
+.status-checking,
+.status-success,
+.status-error,
+.status-warning {
+  text-align: center;
+  padding: 30px;
+}
+
+.status-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48px;
+  margin: 0 auto 20px;
+  font-weight: bold;
+}
+
+.status-success .status-icon {
+  background: #004225;
+  color: white;
+}
+
+.status-error .status-icon {
+  background: #f44336;
+  color: white;
+}
+
+.status-warning .status-icon {
+  background: #ff9800;
+  color: white;
+}
+
+.status-success h2 {
+  color: #004225;
+  margin-bottom: 15px;
+}
+
+.status-error h2,
+.status-warning h2 {
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.status-checking p,
+.status-success p,
+.status-error p,
+.status-warning p {
+  color: #666;
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 10px;
+}
+
+.troubleshooting {
+  text-align: left;
+  margin: 30px 0;
+  padding: 20px;
+  background: #FAF9F6;
+  border-radius: 5px;
+}
+
+.troubleshooting h3 {
+  color: #004225;
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+.troubleshooting ul {
+  margin-left: 20px;
+  color: #666;
+  line-height: 1.8;
+}
+
+.troubleshooting a {
+  color: #004225;
+  text-decoration: underline;
+}
+
+.health-card .btn {
+  margin-top: 20px;
+}

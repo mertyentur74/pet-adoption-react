@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import api from '../utils/api';
 import './AddPet.css';
 
 const AddPet = () => {
-  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
   const [imagePreview, setImagePreview] = useState('');
   
   const [formData, setFormData] = useState({
@@ -25,7 +23,8 @@ const AddPet = () => {
     houseTrained: false,
     goodWithKids: false,
     goodWithPets: false,
-    contactPhone: ''
+    contactPhone: '',
+    image: ''
   });
 
   const handleChange = (e) => {
@@ -42,6 +41,10 @@ const AddPet = () => {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result);
+        setFormData(prev => ({
+          ...prev,
+          image: reader.result
+        }));
       };
       reader.readAsDataURL(file);
     }
@@ -51,9 +54,8 @@ const AddPet = () => {
     e.preventDefault();
     setLoading(true);
     setError('');
-    setSuccess('');
 
-    // Validate phone number
+    // Validate required fields
     if (!formData.contactPhone) {
       setError('Please provide your contact phone number');
       setLoading(false);
@@ -61,52 +63,68 @@ const AddPet = () => {
     }
 
     try {
-      // For now, we'll use a placeholder image URL if no image is uploaded
-      // In production, you'd upload to a service like Cloudinary
-      const petData = {
+      // Use the public submission endpoint
+      const response = await api.post('/public/submit-pet', {
         ...formData,
-        image: imagePreview || 'https://via.placeholder.com/400x300?text=Pet+Image',
-        shelter: '000000000000000000000000', // Placeholder shelter ID
-        medicalHistory: formData.description,
-        adoptionFee: 0
-      };
-
-      await api.post('/pets', petData);
-      
-      setSuccess('Pet added successfully! Our team will review and publish it soon.');
-      
-      // Reset form
-      setFormData({
-        name: '',
-        type: 'dog',
-        breed: '',
-        age: '',
-        gender: 'male',
-        size: 'medium',
-        color: '',
-        description: '',
-        location: '',
-        vaccinated: false,
-        neutered: false,
-        houseTrained: false,
-        goodWithKids: false,
-        goodWithPets: false,
-        contactPhone: ''
+        image: imagePreview || 'https://via.placeholder.com/400x300?text=Pet+Image'
       });
-      setImagePreview('');
-      
-      // Redirect after 3 seconds
-      setTimeout(() => {
-        navigate('/pets');
-      }, 3000);
-      
-    } catch (error) {
-      console.error('Error adding pet:', error);
-      setError(error.response?.data?.message || 'Error adding pet. Please try again.');
+
+      if (response.data.success) {
+        setSuccess(true);
+        setError('');
+        
+        // Reset form
+        setFormData({
+          name: '',
+          type: 'dog',
+          breed: '',
+          age: '',
+          gender: 'male',
+          size: 'medium',
+          color: '',
+          description: '',
+          location: '',
+          vaccinated: false,
+          neutered: false,
+          houseTrained: false,
+          goodWithKids: false,
+          goodWithPets: false,
+          contactPhone: '',
+          image: ''
+        });
+        setImagePreview('');
+
+        // Hide success message after 5 seconds
+        setTimeout(() => setSuccess(false), 5000);
+      }
+    } catch (err) {
+      console.error('Error submitting pet:', err);
+      setError(err.response?.data?.message || 'Error submitting pet. Please try again.');
     } finally {
       setLoading(false);
     }
   };
+
+  if (success) {
+    return (
+      <div className="add-pet-page">
+        <div className="container">
+          <div className="success-card">
+            <div className="success-icon">✓</div>
+            <h1>Thank You!</h1>
+            <p>Your pet listing has been submitted successfully!</p>
+            <p>Our team will review it and contact you within 24-48 hours.</p>
+            <button 
+              onClick={() => setSuccess(false)} 
+              className="btn btn-primary"
+            >
+              Submit Another Pet
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="add-pet-page">
@@ -114,8 +132,11 @@ const AddPet = () => {
         <h1>Add a Pet for Adoption</h1>
         <p className="subtitle">Help a pet find their forever home! No account required.</p>
 
-        {error && <div className="alert alert-error">{error}</div>}
-        {success && <div className="alert alert-success">{success}</div>}
+        {error && (
+          <div className="alert alert-error">
+            {error}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit} className="add-pet-form">
           {/* Basic Information */}
@@ -349,7 +370,7 @@ const AddPet = () => {
             className="btn btn-primary btn-large btn-block" 
             disabled={loading}
           >
-            {loading ? 'Submitting...' : 'Add Pet for Adoption'}
+            {loading ? 'Submitting...' : 'Submit Pet for Adoption'}
           </button>
         </form>
       </div>

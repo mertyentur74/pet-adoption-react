@@ -21,6 +21,8 @@ const Register = () => {
       ...formData,
       [e.target.name]: e.target.value
     });
+    // Clear error when user starts typing
+    if (error) setError('');
   };
 
   const handleSubmit = async (e) => {
@@ -39,15 +41,20 @@ const Register = () => {
 
     setLoading(true);
 
-    const { confirmPassword, ...registerData } = formData;
-    const result = await register(registerData);
+    try {
+      const { confirmPassword, ...registerData } = formData;
+      const result = await register(registerData);
 
-    if (result.success) {
-      navigate('/dashboard');
-    } else {
-      setError(result.message);
+      if (result.success) {
+        navigate('/dashboard');
+      } else {
+        setError(result.message || 'Registration failed. Please try again.');
+      }
+    } catch (err) {
+      setError('Unable to connect to server. Please check your internet connection.');
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
@@ -56,7 +63,11 @@ const Register = () => {
         <h2>Join Us! 🐾</h2>
         <p className="auth-subtitle">Create your account</p>
 
-        {error && <div className="alert alert-error">{error}</div>}
+        {error && (
+          <div className="alert alert-error">
+            {error}
+          </div>
+        )}
 
         <form onSubmit={handleSubmit}>
           <div className="form-group">
@@ -68,6 +79,7 @@ const Register = () => {
               onChange={handleChange}
               required
               placeholder="John Doe"
+              disabled={loading}
             />
           </div>
 
@@ -80,6 +92,7 @@ const Register = () => {
               onChange={handleChange}
               required
               placeholder="your@email.com"
+              disabled={loading}
             />
           </div>
 
@@ -92,6 +105,7 @@ const Register = () => {
               onChange={handleChange}
               required
               placeholder="At least 6 characters"
+              disabled={loading}
             />
           </div>
 
@@ -104,18 +118,28 @@ const Register = () => {
               onChange={handleChange}
               required
               placeholder="Confirm your password"
+              disabled={loading}
             />
           </div>
 
           <div className="form-group">
             <label>Account Type</label>
-            <select name="role" value={formData.role} onChange={handleChange}>
+            <select 
+              name="role" 
+              value={formData.role} 
+              onChange={handleChange}
+              disabled={loading}
+            >
               <option value="user">Pet Adopter</option>
               <option value="shelter">Shelter/Rescue</option>
             </select>
           </div>
 
-          <button type="submit" className="btn btn-primary btn-block" disabled={loading}>
+          <button 
+            type="submit" 
+            className="btn btn-primary btn-block" 
+            disabled={loading}
+          >
             {loading ? 'Creating account...' : 'Sign Up'}
           </button>
         </form>
@@ -123,6 +147,12 @@ const Register = () => {
         <p className="auth-link">
           Already have an account? <Link to="/login">Login here</Link>
         </p>
+
+        <div className="auth-note">
+          <small>
+            <strong>Note:</strong> If you're having trouble signing up, make sure the backend server is running.
+          </small>
+        </div>
       </div>
     </div>
   );
